@@ -52,7 +52,7 @@ Uses two networks. Updates is done with small loss instances of peer network whi
 - Jonathan Krause, Benjamin Sapp, Andrew Howard, HowardZhou, Alexander Toshev, Tom Duerig, James Philbin, andLi Fei-Fei. The unreasonable effectiveness of noisy data forfine-grained recognition.  InECCV, volume 9907 ofLNCS,pages 301–320. Springer, 2016.
 - Sainbayar Sukhbaatar, Joan Bruna, Manohar Paluri, LubomirBourdev, and Rob Fergus. Training convolutional networkswith noisy labels.arXiv preprint arXiv:1406.2080, 2014.
     
-    We can easily collect alarge scale dataset with noisy annotations through image search engines
+    We can easily collect a large scale dataset with noisy annotations through image search engines
 
 
 - Tong Xiao, Tian Xia, Yi Yang, Chang Huang, and XiaogangWang. Learning from massive noisy labeled data for image classification. InCVPR, pages 2691–2699, 2015.
@@ -64,7 +64,34 @@ Uses two networks. Updates is done with small loss instances of peer network whi
     
     Shows that networks can memorize even completly random labels, so noise effect is an important problem for highly parametrized networks.
 
+
+- Jan Larsen, Lars Nonboe Andersen, Mads Hintz-Madsen, andLars Kai Hansen. Design of robust neural network classifiers.InICASSP, pages 1205–1208, 1998.
+
+    Modelling of symmetric noise.
+
+
+- Sainbayar Sukhbaatar, Joan Bruna, Manohar Paluri, LubomirBourdev, and Rob Fergus. Training convolutional networkswith noisy labels.arXiv preprint arXiv:1406.2080, 2014.
+
+    Modelling of asymmetric noise.
+
+- Carla E. Brodley and Mark A. Friedl. Identifying mislabeledtraining data.J. Artif. Intell. Res., 11:131–167, 1999.
+
+    Delete unreliable samples.
+
+- Isabelle Guyon, Nada Matic, and Vladimir Vapnik. Discov-ering informative patterns and data cleaning. InKDD, pages181–203, 1996.
+
+    Hard-diffucult samples are important for network accuracy.
+
+
 ## Some Classes
+
+### Robuts Loss Functions
+
+1 - Giorgio Patrini, Alessandro Rozza, Aditya Krishna Menon,Richard Nock, and Lizhen Qu. Making deep neural networksrobust to label noise: A loss correction approach. InCVPR,pages 1944–1952, 2017.
+
+2 - Aritra Ghosh, Himanshu Kumar, and P. S. Sastry.  Robustloss functions under label noise for deep neural networks. InAAAI, pages 1919–1925, 2017.
+
+3 - Zhilu Zhang and Mert R. Sabuncu. Generalized cross entropyloss for training deep neural networks with noisy labels.  InNIPS, 2018.
 
 
 
