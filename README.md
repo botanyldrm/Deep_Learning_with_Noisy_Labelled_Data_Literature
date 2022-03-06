@@ -44,6 +44,7 @@ Uses two networks. Updates is done with small loss instances of peer network whi
 ## Some References
 
 - P. Welinder, S. Branson, T. Mita, C. Wah, F. Schroff, S. Be-longie, and P. Perona. Caltech-UCSD Birds 200. TechnicalReport CNS-TR-2010-001, California Institute of Technol-ogy, 2010.
+
 Expert knowledge is necessary for some datasets such as the fine-grained CUB-200, which demands knowledge from ornithologists.
 
 
