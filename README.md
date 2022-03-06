@@ -29,17 +29,34 @@ Uses two networks. Updates is done with small loss instances of peer network whi
 
 ### 4 - Deep Self-Learning From Noisy Labels
 
-### 5 - Combating noisy labels by agreement: A joint training method with co-regularization
+### 5 - Probabilistic End-to-end Noise Correction for Learning with Noisy Labels
+Uses a single network. Try to model image labels as probabilistic distrubitions in soft-label space. Initially, train a neural network with noisy labels using classical cross entropy loss. At this step, learning rate is set to high value and they claim that high learning rate prevents overfitting to noisy labels. Then, soft labels are initialized with noisy labels. In the second step, they optimize both network parameters and soft labels to decrease loss value. At this step, loss function includes three terms: classification loss, compatibility loss and entropy loss as a regulazir. Classification loss is a modified version of KL divergence. Compatibility loss is cross entropy between soft labels and initial noisy labels. Entropy loss is applied to output of the network to avoid flat predictions. In the third step, they fine tune networks parameters over optimized soft labels using a small learning rate.
 
-### 6 - Label Noise Types and Their Effects on Deep Learning
+They used CIFAR10, CIFAR100, CUB-200 and Clothing1M datesets in experiments. They used symmetric and asymmetric syhentetic noises for clean sets. They used noise rate dependent hyperparameters in CIFAR10 case. They used a subset of Clothing1M by claiming there is a class imbalance problem in the dataset.
 
-### 7 - Identifying Mislabeled Data using the Area Under the Margin Ranking
+### 6 - Combating noisy labels by agreement: A joint training method with co-regularization
 
-### 8 - DivideMix: Learning with Noisy Labels as Semi-supervised Learning
+### 7 - Label Noise Types and Their Effects on Deep Learning
 
-### 9 - Boosting Co-teaching with Compression Regularization for Label Noise
+### 8 - Identifying Mislabeled Data using the Area Under the Margin Ranking
 
-### 10 - LEARNING WITH FEATURE-DEPENDENT LABEL NOISE: A PROGRESSIVE APPROACH
+### 9 - DivideMix: Learning with Noisy Labels as Semi-supervised Learning
+
+### 10 - Boosting Co-teaching with Compression Regularization for Label Noise
+
+### 11 - LEARNING WITH FEATURE-DEPENDENT LABEL NOISE: A PROGRESSIVE APPROACH
+
+
+## Some Classes
+
+### Robuts Loss Functions
+
+1 - Giorgio Patrini, Alessandro Rozza, Aditya Krishna Menon,Richard Nock, and Lizhen Qu. Making deep neural networksrobust to label noise: A loss correction approach. InCVPR,pages 1944–1952, 2017.
+
+2 - Aritra Ghosh, Himanshu Kumar, and P. S. Sastry.  Robustloss functions under label noise for deep neural networks. InAAAI, pages 1919–1925, 2017.
+
+3 - Zhilu Zhang and Mert R. Sabuncu. Generalized cross entropyloss for training deep neural networks with noisy labels.  InNIPS, 2018.
+
 
 ## Some References
 
@@ -81,18 +98,4 @@ Uses two networks. Updates is done with small loss instances of peer network whi
 - Isabelle Guyon, Nada Matic, and Vladimir Vapnik. Discov-ering informative patterns and data cleaning. InKDD, pages181–203, 1996.
 
     Hard-diffucult samples are important for network accuracy.
-
-
-## Some Classes
-
-### Robuts Loss Functions
-
-1 - Giorgio Patrini, Alessandro Rozza, Aditya Krishna Menon,Richard Nock, and Lizhen Qu. Making deep neural networksrobust to label noise: A loss correction approach. InCVPR,pages 1944–1952, 2017.
-
-2 - Aritra Ghosh, Himanshu Kumar, and P. S. Sastry.  Robustloss functions under label noise for deep neural networks. InAAAI, pages 1919–1925, 2017.
-
-3 - Zhilu Zhang and Mert R. Sabuncu. Generalized cross entropyloss for training deep neural networks with noisy labels.  InNIPS, 2018.
-
-
-
 
