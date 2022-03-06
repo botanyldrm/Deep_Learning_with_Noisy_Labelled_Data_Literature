@@ -45,7 +45,7 @@ Uses two networks. Updates is done with small loss instances of peer network whi
 
 - P. Welinder, S. Branson, T. Mita, C. Wah, F. Schroff, S. Be-longie, and P. Perona. Caltech-UCSD Birds 200. TechnicalReport CNS-TR-2010-001, California Institute of Technol-ogy, 2010.
 
-&nbsp; &nbsp; &nbsp; &nbsp;Expert knowledge is necessary for some datasets such as the fine-grained CUB-200, which demands knowledge from ornithologists.
+⋅⋅⋅Expert knowledge is necessary for some datasets such as the fine-grained CUB-200, which demands knowledge from ornithologists.
 
 
 - Robert Fergus, Fei-Fei Li, Pietro Perona, and Andrew Zisser-man. Learning object categories from Internet image searches.Proceedings of the IEEE, 98(8):1453–1466, 2010
