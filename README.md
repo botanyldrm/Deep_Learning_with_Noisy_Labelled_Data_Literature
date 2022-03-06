@@ -6,7 +6,8 @@
 |2018||[Pt](https://github.com/bhanML/Co-teaching)|[Co-teaching: Robust Training of Deep Neural Networks with Extremely Noisy Labels](https://arxiv.org/abs/1804.06872)|
 |2019||[Pt](https://github.com/xingruiyu/coteaching_plus)|[How does Disagreement Help Generalization against Label Corruption?](https://arxiv.org/abs/1901.04215)|
 |2019|||[Deep Self-Learning From Noisy Labels](https://arxiv.org/abs/1908.02160)|
-|2019|||[Probabilistic End-to-end Noise Correction for Learning with Noisy Labels](https://arxiv.org/abs/1903.07788)|
+|2019|CVPR||[Probabilistic End-to-end Noise Correction for Learning with Noisy Labels](https://arxiv.org/abs/1903.07788)|
+|2020|ICLR||[SELF: Learning to Filter Noisy Labels with Self-Ensembling](https://arxiv.org/abs/1910.01842)|
 |2020|||[Combating noisy labels by agreement: A joint training method with co-regularization](https://arxiv.org/abs/2003.02752)|
 |2020|||[Label Noise Types and Their Effects on Deep Learning](https://arxiv.org/abs/2003.10471)|
 |2020|||[Identifying Mislabeled Data using the Area Under the Margin Ranking](https://arxiv.org/abs/2001.10528)|
@@ -28,6 +29,9 @@ Uses two networks. Updates is done with small loss instances of peer network. Do
 Uses two networks. Updates is done with small loss instances of peer network which are in the disagreement region. It can be viewed as combination of Decoupling and Co-teaching. Does not require any clean subset. Assumes that noise ration is known. Uses MNIST, CIFAR10, CIFAR100, NEW and T-ImageNet datasets in experiments. Apply symmetric and asymmetric syhentetic noise.
 
 ### 4 - Deep Self-Learning From Noisy Labels
+Uses single network. There is an iterative approach which consists training and label correction phases. Initially, a network starts its the first epoch using noisy label. Then, features of samples are extracted with that network. Using cosine similarity, similiarity between samples inside each class is calculated(it is classwise). Then, a similarity metric is defined to extract samples which are possibly clean and hard. For each class, paper extracts multiple prototypes for each class using this similarity metric. Then, each samples compared with prototypes to create a class score for each samples. The class where class score is maxiumum is assigned to sample as new-corrected label.
+
+They used Food101-N and Clothing1M datasets in their experiments. There is not any clean subset or noise rate assumption before training.
 
 ### 5 - Probabilistic End-to-end Noise Correction for Learning with Noisy Labels
 Uses a single network. Try to model image labels as probabilistic distrubitions in soft-label space. Initially, train a neural network with noisy labels using classical cross entropy loss. At this step, learning rate is set to high value and they claim that high learning rate prevents overfitting to noisy labels. Then, soft labels are initialized with noisy labels. In the second step, they optimize both network parameters and soft labels to decrease loss value. At this step, loss function includes three terms: classification loss, compatibility loss and entropy loss as a regulazir. Classification loss is a modified version of KL divergence. Compatibility loss is cross entropy between soft labels and initial noisy labels. Entropy loss is applied to output of the network to avoid flat predictions. In the third step, they fine tune networks parameters over optimized soft labels using a small learning rate.
@@ -43,7 +47,9 @@ They used CIFAR10, CIFAR100, CUB-200 and Clothing1M datesets in experiments. The
 ### 9 - DivideMix: Learning with Noisy Labels as Semi-supervised Learning
 
 ### 10 - Boosting Co-teaching with Compression Regularization for Label Noise
+Uses two networks. They apply two stages training. In the first step, they trained two networks using nested dropout approach. Nested dropout create an output at the end of network with importance oredered.  Then, they choose first k entry of this importance ordered output. They, fine tune their network using these k entry of output with Co-teaching algorithm. The first stage provides a reliable base for Co-teaching algorithm.
 
+They used Food101-N and Clothing1M datasets in their experiments. They takes 260k images from Clothing1M dataset which is balanced. There is not any clean dataset or noise rate assumption before training.
 ### 11 - LEARNING WITH FEATURE-DEPENDENT LABEL NOISE: A PROGRESSIVE APPROACH
 
 
