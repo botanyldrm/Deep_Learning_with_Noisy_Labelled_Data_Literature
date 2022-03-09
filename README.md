@@ -12,9 +12,9 @@
 |2020|||[Label Noise Types and Their Effects on Deep Learning](https://arxiv.org/abs/2003.10471)|
 |2020|||[Identifying Mislabeled Data using the Area Under the Margin Ranking](https://arxiv.org/abs/2001.10528)|
 |2020|ICLR|[Pt](https://github.com/LiJunnan1992/DivideMix)|[DivideMix: Learning with Noisy Labels as Semi-supervised Learning](https://arxiv.org/abs/2002.07394)|
-|2021||[Pt](https://github.com/yingyichen-cyy/Nested-Co-teaching)|[Boosting Co-teaching with Compression Regularization for Label Noise](https://arxiv.org/abs/2104.13766)|
+|2021|CVPR|[Pt](https://github.com/yingyichen-cyy/Nested-Co-teaching)|[Boosting Co-teaching with Compression Regularization for Label Noise](https://arxiv.org/abs/2104.13766)|
 |2021|ICLR|[Pt](https://github.com/pxiangwu/PLC)|[LEARNING WITH FEATURE-DEPENDENT LABEL NOISE: A PROGRESSIVE APPROACH](https://arxiv.org/abs/2103.07756)|
-
+|2021|CVPR||[Augmentation Strategies for Learning with Noisy Labels](https://arxiv.org/abs/2103.02130)|
 
 ## Summaries
 
@@ -38,19 +38,30 @@ Uses a single network. Try to model image labels as probabilistic distrubitions 
 
 They used CIFAR10, CIFAR100, CUB-200 and Clothing1M datesets in experiments. They used symmetric and asymmetric syhentetic noises for clean sets. They used noise rate dependent hyperparameters in CIFAR10 case. They used a subset of Clothing1M by claiming there is a class imbalance problem in the dataset.
 
-### 6 - Combating noisy labels by agreement: A joint training method with co-regularization
+### 6 - SELF: Learning to Filter Noisy Labels with Self-Ensembling
 
-### 7 - Label Noise Types and Their Effects on Deep Learning
+Uses two networks but in concept of mean teacher network. There is an student network and teacher network. Student network is trained over current dataset and then, teacher network is updated as moving average of student network. Student network is trained with labelled data using classification loss, while unlabelled data is used for consistency loss between student and teacher network predictions.
+Here, paper idea is detecting possible noisy samples during training using an ensembling approach. At initial, all samples are assigned as possible clean samples. Network is trained over. Then, each sample prediction is used in moving average calculation. If the maxima of moving average prediction of a sample is consistent with its ground truth, it is tagged as clean for current iteration. In this way, a possible clean set is constructed.
+In the next iteration, network is again trained over possible clean set. If the network accuracy over a validation set is higher than best network result, previous filtering process is repeated to construct a new possible clean set. This continues till the convergence of approach. 
+Possible noisy samples are used in the consistency loss of mean teach network training.
 
-### 8 - Identifying Mislabeled Data using the Area Under the Margin Ranking
+Paper uses CIFAR10, CIFAR100 and ImageNet datasets in experiments. They used symmetric and asymmetric syhentetic noises for clean sets. There is not any clean subset or noise rate assumption before training.
 
-### 9 - DivideMix: Learning with Noisy Labels as Semi-supervised Learning
+### 7 - Combating noisy labels by agreement: A joint training method with co-regularization
 
-### 10 - Boosting Co-teaching with Compression Regularization for Label Noise
+### 8 - Label Noise Types and Their Effects on Deep Learning
+
+### 9 - Identifying Mislabeled Data using the Area Under the Margin Ranking
+
+### 10 - DivideMix: Learning with Noisy Labels as Semi-supervised Learning
+
+### 11 - Boosting Co-teaching with Compression Regularization for Label Noise
 Uses two networks. They apply two stages training. In the first step, they trained two networks using nested dropout approach. Nested dropout create an output at the end of network with importance oredered.  Then, they choose first k entry of this importance ordered output. They, fine tune their network using these k entry of output with Co-teaching algorithm. The first stage provides a reliable base for Co-teaching algorithm.
 
 They used Food101-N and Clothing1M datasets in their experiments. They takes 260k images from Clothing1M dataset which is balanced. There is not any clean dataset or noise rate assumption before training.
-### 11 - LEARNING WITH FEATURE-DEPENDENT LABEL NOISE: A PROGRESSIVE APPROACH
+### 12 - LEARNING WITH FEATURE-DEPENDENT LABEL NOISE: A PROGRESSIVE APPROACH
+
+### 13 - Augmentation Strategies for Learning with Noisy Labels
 
 
 ## Some Classes
