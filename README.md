@@ -13,6 +13,7 @@
 |2020|||[Label Noise Types and Their Effects on Deep Learning](https://arxiv.org/abs/2003.10471)|
 |2020|||[Identifying Mislabeled Data using the Area Under the Margin Ranking](https://arxiv.org/abs/2001.10528)|
 |2020|ICLR|[Pt](https://github.com/LiJunnan1992/DivideMix)|[DivideMix: Learning with Noisy Labels as Semi-supervised Learning](https://arxiv.org/abs/2002.07394)|
+|2020|ICML|[Pt](https://github.com/google-research/google-research/tree/master/mentormix)|[Beyond Synthetic Noise: Deep Learning on Controlled Noisy Labels](https://arxiv.org/abs/1911.09781)|
 |2021|CVPR|[Pt](https://github.com/yingyichen-cyy/Nested-Co-teaching)|[Boosting Co-teaching with Compression Regularization for Label Noise](https://arxiv.org/abs/2104.13766)|
 |2021|ICLR|[Pt](https://github.com/pxiangwu/PLC)|[LEARNING WITH FEATURE-DEPENDENT LABEL NOISE: A PROGRESSIVE APPROACH](https://arxiv.org/abs/2103.07756)|
 |2021|CVPR|[Pt](https://github.com/KentoNishi/Augmentation-for-LNL)|[Augmentation Strategies for Learning with Noisy Labels](https://arxiv.org/abs/2103.02130)|
@@ -24,6 +25,14 @@ Uses two networks. Looks disagreement region for updates. Does not requires any 
 Disagreement region always contains noisy samples and network start to memorizes these samples in later iterations of training.
 
 ### 2 - CleanNet: Transfer Learning for Scalable Image Classifier Training with Label Noise
+
+Paper requires a subset which is manually verified to be clean. Paper try to create protypes for classes to decide later whether a sample is clean or not. Here, they used two encoder named as reference set encoder and query encoder. 
+For training reference set encoder, they choose representative samples for each class. For each class, reference images are fed to a feature extractor. Features then passed through a two layer MLP to create a hidden feature vector. Then, each hidden feature vector is used in an attention mechanism to create a final hidden representation which includes clues from each sample. Then, a one layer MLP convertes this final hidden representation to class embeding which is our prototype.
+Query encoder includes an encoder-decoder structure. At the beginning, image is passed through a feature extractor. Then, extracted feaure is given to encoder. Encoded vector then is used for reconstruction of feature vector through a decoder. There is reconstruction loss between input of encoder and output of decoder. In this way, unlabelled data also can be used during training. Also, there is a similarity loss between class reference embeding and encoder output. If Query image is in the same class with reference embeding, similarity between them tried to be maximixed, otherwise it tried to be minimized. Also, for unverified query images, they look similarity between each class reference embedding. If the similarity is larger then a threshold, this similarity also tried to be maximized. This final loss is unsupervised loss. Total loss for query encoder is sumation of reconstruction loss, similariy loss of class reference embeddings and query image and, unsupervised loss.
+
+Using reference encoder and query encoder, a query image can be classified as noisy or clean. This is done by applying a threshold to cosine similarity between query embedding and class embedding. Actually, paper used similariy between query embedding and class embedding as a weight in a classifier training.
+
+They used Food-101N, Clothing1M and WebVision datasets in experiments. They used a clean subset for training. There is not nay syhentetic noise in this paper, all cases are real world noisy scenarios.
 
 ### 3 - Co-teaching: Robust Training of Deep Neural Networks with Extremely Noisy Labels
 Uses two networks. Updates is done with small loss instances of peer network. Does not require any clean subset. Assumes that noise ratio is known. Uses MNIST, CIFAR10, CIFAR100 dasets in experiments. Apply symmetric and asymmetric syhentetic noises in experiments.
@@ -60,14 +69,19 @@ Paper uses CIFAR10, CIFAR100 and ImageNet datasets in experiments. They used sym
 
 Uses two networks. Initially, networks are warming up using cross entropy loss with penalty for confident predictions by adding a negative cross entropy term. They claim that adding this penalty term, makes clean and noisy samples more distinguisable during analyzing their loss. Then, for each training epoch, algorithm first uses GMM to model per-sample loss with each of the two networks. Using this and a clean probability threshold, the network then categorizes samples into a labelled set and an unlabelled set. Batches are pulled from each of these two sets and are first augmented. Predictions using the augmented samples are made and a sharpening function is applied to output to reduce entropy of label distribution. For labelled set, weighted sum of original label and network predictions are taken while for unlabelled set average of the two networks are taken before sharpening. Then, we obtained two new sets and these are fed to MixMatch algorithm.
 
-### 12 - Boosting Co-teaching with Compression Regularization for Label Noise
+### 12 - Beyond Synthetic Noise: Deep Learning on Controlled Noisy Labels
+
+### 13 - Boosting Co-teaching with Compression Regularization for Label Noise
 Uses two networks. They apply two stages training. In the first step, they trained two networks using nested dropout approach. Nested dropout create an output at the end of network with importance oredered.  Then, they choose first k entry of this importance ordered output. They, fine tune their network using these k entry of output with Co-teaching algorithm. The first stage provides a reliable base for Co-teaching algorithm.
 
 They used Food101-N and Clothing1M datasets in their experiments. They takes 260k images from Clothing1M dataset which is balanced. There is not any clean dataset or noise rate assumption before training.
-### 13 - LEARNING WITH FEATURE-DEPENDENT LABEL NOISE: A PROGRESSIVE APPROACH
+### 14 - LEARNING WITH FEATURE-DEPENDENT LABEL NOISE: A PROGRESSIVE APPROACH
 
-### 14 - Augmentation Strategies for Learning with Noisy Labels
+### 15 - Augmentation Strategies for Learning with Noisy Labels
 
+Paper does not provide any spesific approach directly but it investigates augmentation effect over LNL appraoches. Main claim of the paper is that approaches should uses different augmentation strategies for warm-up and main training phase. Here, warm-up iterations generally used for loss characterisctic investigation where approaches try to get an idea about possible clean-noisy samples. In other hand, main training phase is the part of LNL where approaches try to learn from samples via backpropogation. They claim that weak augmentation is better for warm-up training while strong augmentaion is better for main training phase. They uses AutoAugment and RandAugment strategies in experiments.
+
+They use CIFAR10, CIFAR100 and Clothing1M in the experiments. They mainly apply their augmentation strategy to DIVIDEMIX and Co-teadhing+. They used symmetric and asymmetric syhentetic noises for clean sets.
 
 ## Some Classes
 
@@ -99,6 +113,35 @@ They used Food101-N and Clothing1M datasets in their experiments. They takes 260
 
 5 - Xingjun Ma, Yisen Wang, Michael E. Houle, Shuo Zhou, Sarah M. Erfani, Shu-Tao Xia, Sudanthi Wijewickrema, and James Bailey. Dimensionality-driven learning with noisy labels. In ICML, 2018.
 
+### Prototype Based
+
+1 - Deep Self-Learning From Noisy Labels
+
+2 - CleanNet: Transfer Learning for Scalable Image Classifier Training with Label Noise
+
+3 - S. Azadi, J. Feng, S. Jegelka, and T. Darrell. Auxiliary image regularization for deep CNNs with noisy labels. In ICLR, 2016.
+
+4 -  F. Yu, A. Seff, Y. Zhang, S. Song, T. Funkhouser, and J. Xiao. LSUN: Construction of a large-scale image dataset using deep learning with humans in the loop. arXiv preprint arXiv:1506.03365, 2015.
+
+### Without Clean Dataset
+
+### With Clean Dataset
+
+## Datasets
+
+### Food-101N
+
+It includes 310k images. The estimated noisy class label accuracy is 80%
+
+### Clothing1M
+
+The  estimated  accuracy  ofclass labels is 61.54%.
+
+### WebVision
+
+It includes 2.4M noisy labelled images.
+
+
 ## Some References
 
 - P. Welinder, S. Branson, T. Mita, C. Wah, F. Schroff, S. Be-longie, and P. Perona. Caltech-UCSD Birds 200. TechnicalReport CNS-TR-2010-001, California Institute of Technol-ogy, 2010.
@@ -108,8 +151,9 @@ They used Food101-N and Clothing1M datasets in their experiments. They takes 260
 
 - Robert Fergus, Fei-Fei Li, Pietro Perona, and Andrew Zisser-man. Learning object categories from Internet image searches.Proceedings of the IEEE, 98(8):1453–1466, 2010
 - Jonathan Krause, Benjamin Sapp, Andrew Howard, HowardZhou, Alexander Toshev, Tom Duerig, James Philbin, andLi Fei-Fei. The unreasonable effectiveness of noisy data forfine-grained recognition.  InECCV, volume 9907 ofLNCS,pages 301–320. Springer, 2016.
-- Sainbayar Sukhbaatar, Joan Bruna, Manohar Paluri, LubomirBourdev, and Rob Fergus. Training convolutional networkswith noisy labels.arXiv preprint arXiv:1406.2080, 2014.
-    
+- Sainbayar Sukhbaatar, Joan Bruna, Manohar Paluri, LubomirBourdev, and Rob Fergus. Training convolutional networks with noisy labels.arXiv preprint arXiv:1406.2080, 2014.
+- F. Schroff, A. Criminisi, and A. Zisserman. Harvesting image databases from the web. IEEE Transactions on Pattern Analysis and Machine Intelligence, 33(4):754–766, 2011
+
     We can easily collect a large scale dataset with noisy annotations through image search engines
 
 
@@ -132,33 +176,48 @@ They used Food101-N and Clothing1M datasets in their experiments. They takes 260
 
     Modelling of asymmetric noise.
 
+
 - Carla E. Brodley and Mark A. Friedl. Identifying mislabeledtraining data.J. Artif. Intell. Res., 11:131–167, 1999.
 
     Delete unreliable samples.
+
 
 - Isabelle Guyon, Nada Matic, and Vladimir Vapnik. Discov-ering informative patterns and data cleaning. InKDD, pages181–203, 1996.
 
     Hard-diffucult samples are important for network accuracy.
 
+
 -  Qizhe Xie, Minh-Thang Luong, Eduard Hovy, and Quoc VLe. Self-training with noisy student improves imagenet clas-sification.  InProceedings of the IEEE/CVF Conference onComputer  Vision  and  Pattern  Recognition,  pages  10687–10698, 2020
 
     Data augmentation in classification
+
 
 - Kihyuk  Sohn,  Zizhao  Zhang,  Chun-Liang  Li,  Han  Zhang,Chen-Yu Lee, and Tomas Pfister.  A simple semi-supervisedlearning  framework  for  object  detection.arXiv  preprintarXiv:2005.04757, 2020.
 
     Data augmentation in object detection
 
+
 - Devansh Arpit, Stanisław Jastrz ̨ebski, Nicolas Ballas, DavidKrueger,  Emmanuel  Bengio,  Maxinder  S.  Kanwal,  TeganMaharaj, Asja Fischer, Aaron Courville, Yoshua Bengio, andSimon Lacoste-Julien. A closer look at memorization in deepnetworks. InICML, 2017.
 
     correctly labeled data fit before incorrectly labeled data as discovered
+
 
 - Eric Arazo,  Diego Ortego,  Paul Albert,  Noel E O’Connor,and Kevin McGuinness.  Unsupervised label noise modelingand loss correction.arXiv preprint arXiv:1904.11238, 2019.
 - Junnan Li, Richard Socher, and Steven CH Hoi.  Dividemix:Learning  with  noisy  labels  as  semi-supervised  learning.arXiv preprint arXiv:2002.07394, 2020.
 
     Mix-up augmentation in noise labelled problem
 
+
 - Eric Arazo, Diego Ortego, Paul Albert, Noel E O’Connor, and Kevin McGuinness. Unsupervised label noise modeling and loss correction. arXiv preprint arXiv:1904.11238, 2019.
 - Junnan Li, Richard Socher, and Steven CH Hoi. Dividemix: Learning with noisy labels as semi-supervised learning. arXiv preprint arXiv:2002.07394, 2020.
 - Xingrui Yu, Bo Han, Jiangchao Yao, Gang Niu, Ivor W Tsang, and Masashi Sugiyama. How does disagreement help generalization against label corruption? arXiv preprint arXiv:1901.04215, 2019.
 
     Warm-up for loss investigation of noisy labelled datasets
+
+
+- B. Fr ́enay and M. Verleysen. Classification in the presence of label noise: a survey. IEEE Transactions on Neural Networks and Learning Systems, 25(5):845–869, 2014.
+- D. F. Nettleton, A. Orriols-Puig, and A. Fornells. A study of the effect of different types of noise on the precision of supervised learning techniques. Artificial Intelligence Review, 33(4):275–306, 2010
+- D. Rolnick, A. Veit, S. Belongie, and N. Shavit. Deep learning is robust to massive label noise. arXiv preprint arXiv:1705.10694, 2017.
+- S. Sukhbaatar, J. Bruna, M. Paluri, L. Bourdev, and R. Fergus. Training convolutional networks with noisy labels. arXiv preprint arXiv:1406.2080, 2014
+
+    many studies have shown that labelnoise can affect accuracy of the induced classifiers signifi-cantly
