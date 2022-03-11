@@ -17,6 +17,7 @@
 |2021|CVPR|[Pt](https://github.com/yingyichen-cyy/Nested-Co-teaching)|[Boosting Co-teaching with Compression Regularization for Label Noise](https://arxiv.org/abs/2104.13766)|
 |2021|ICLR|[Pt](https://github.com/pxiangwu/PLC)|[LEARNING WITH FEATURE-DEPENDENT LABEL NOISE: A PROGRESSIVE APPROACH](https://arxiv.org/abs/2103.07756)|
 |2021|CVPR|[Pt](https://github.com/KentoNishi/Augmentation-for-LNL)|[Augmentation Strategies for Learning with Noisy Labels](https://arxiv.org/abs/2103.02130)|
+|2022|TNNLS Journa||[Learning from Noisy Labels with Deep Neural Networks: A Survey](https://arxiv.org/abs/2007.08199)|
 
 ## Summaries
 
@@ -70,6 +71,13 @@ Paper uses CIFAR10, CIFAR100 and ImageNet datasets in experiments. They used sym
 Uses two networks. Initially, networks are warming up using cross entropy loss with penalty for confident predictions by adding a negative cross entropy term. They claim that adding this penalty term, makes clean and noisy samples more distinguisable during analyzing their loss. Then, for each training epoch, algorithm first uses GMM to model per-sample loss with each of the two networks. Using this and a clean probability threshold, the network then categorizes samples into a labelled set and an unlabelled set. Batches are pulled from each of these two sets and are first augmented. Predictions using the augmented samples are made and a sharpening function is applied to output to reduce entropy of label distribution. For labelled set, weighted sum of original label and network predictions are taken while for unlabelled set average of the two networks are taken before sharpening. Then, we obtained two new sets and these are fed to MixMatch algorithm.
 
 ### 12 - Beyond Synthetic Noise: Deep Learning on Controlled Noisy Labels
+
+Paper uses a single network and combine MentorNet and MixUp ideas in their approach. For MentorNet, they simply uses thresholding setup. For a mini batch, they find loss of each sample and then apply thresholding to find weights of each sample. Then, for each sample they select another samples using categorical distribution constructed with found weights. After that, they apply MixUp augmentation between these samples. Loss over augmented samples is calculated for backprogation.
+
+They also provides some observations with their experiments. The first one, DNN are better in terms of generalization in real-world noise settings. The second one is that learning easy pattern in early stage of training is true for syhentetic noises but this is not same in real world settings. The third one is that better models trained over ImageNet provides better results over noisy dateset via finetuning.
+
+They make experiments over CIFAR10, CIFAR100 and a benchmark created by them.
+
 
 ### 13 - Boosting Co-teaching with Compression Regularization for Label Noise
 Uses two networks. They apply two stages training. In the first step, they trained two networks using nested dropout approach. Nested dropout create an output at the end of network with importance oredered.  Then, they choose first k entry of this importance ordered output. They, fine tune their network using these k entry of output with Co-teaching algorithm. The first stage provides a reliable base for Co-teaching algorithm.
@@ -220,4 +228,12 @@ It includes 2.4M noisy labelled images.
 - D. Rolnick, A. Veit, S. Belongie, and N. Shavit. Deep learning is robust to massive label noise. arXiv preprint arXiv:1705.10694, 2017.
 - S. Sukhbaatar, J. Bruna, M. Paluri, L. Bourdev, and R. Fergus. Training convolutional networks with noisy labels. arXiv preprint arXiv:1406.2080, 2014
 
-    many studies have shown that labelnoise can affect accuracy of the induced classifiers signifi-cantly
+    many studies have shown that labelnoise can affect accuracy of the induced classifiers significantly
+
+## Useful Texts
+
+    Recent contributions based on deeplearning handle noisy data in multiple directions includ-ing dropout (Arpit et al., 2017) and other regularizationtechniques  (Azadi  et  al.,  2016;  Noh  et  al.,  2017),  labelcleaning/correction (Reed et al., 2014; Goldberger & Ben-Reuven, 2017; Li et al., 2017b; Veit et al., 2017; Song et al.,2019), example weighting (Jiang et al., 2018; Ren et al.,2018; Shu et al., 2019; Jiang et al., 2015; Liang et al., 2016) cross-validation (Northcutt et al., 2019), semi-supervisedlearning (Hendrycks et al., 2018; Vahdat, 2017; Li et al.,2020; Zhang et al., 2020), data augmentation (Zhang et al.,2018; Cheng et al., 2019; 2020; Liang et al., 2020)
+
+    Bootstrap(Reed  et  al.,  2014)  corrects  the  loss  with  thelearned label.
+
+    S-model(Goldberger & Ben-Reuven, 2017) is another wayto “correct” the predictions by appending a new layer toa DNN to learn noise transformation.
